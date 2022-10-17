@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>VISTAS COLLECTION</h1>
+<div class="section row">
+    {% for vista in vistas %}
+    <div class="col s6 m3 center-align">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-image">
+                    <img src="{{vista.img}}" alt="{{vista.name}}">
+                </div>
+                <span class="card-title right">{{vista.name}}</span>
+                <p>{{vista.description}} </p>
+                <div class="card-action">
+                    <a href="#">SEE DETAILS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
