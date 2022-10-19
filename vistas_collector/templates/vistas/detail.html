@@ -1,8 +1,86 @@
+
 {% extends 'base.html' %}
 {% block content %}
-<div class="card">
-    <div class="card-content">
-        <span class="card-title"> VISTA GOES HERE </span>
+{% comment %} {% if enlarged %}
+<a onclick="resetImg()" href="#" class="btn-floating green darken-2"><i class="small material-icons">clear</i> </a>
+{% endif %} {% endcomment %}
+<div class="row">
+    <div class="card" style="{{ "background-color: rgba(0,0,0,.5);" }}">
+        <div class="card-content">
+            {% comment %} TITLE AND IMAGE {% endcomment %}
+            <h1 class="green-text center">{{vista.name}} </h1>
+            <div class="row center">
+                <img onclick="enlarge()" id="img_view" src="{{vista.img}}" alt="{{vista.name}}" class="card-image">
+            </div>
+            <div class="row white-text">
+                <div class="col s11 offset-s1">
+                    {% comment %} DETAILS {% endcomment %}
+                    <h3>{{vista.season}} of {{vista.year}}: {{vista.description}}</h3>
+                    <h3>{{vista.location}}, {{vista.state_province}}, {{vista.country}}</h3>
+                </div>
+            </div>
+            {% comment %} UPDATE/REMOVE BUTTONS {% endcomment %}
+            <div class="card-action">
+                <a href="{% url 'vista_update' vista.id %}" class="btn green darken-2">UPDATE INFO</a>
+                <a href="{% url 'vista_delete' vista.id %}" class="btn orange darken-4">REMOVE</a>
+            </div>
+        </div>
     </div>
 </div>
+{% comment %} COMMENTS SECTION {% endcomment %}
+<div class="section container">
+    <form action="{% url 'add_comment' vista.id %}" method="post" class="row">
+        <fieldset style="{{ "border-radius: 1em; border: 1px solid grey; padding-bottom: 2em;" }}">
+            <legend style="{{ "margin: 0 1em; padding: 0 1em; font-size: 2em;" }}">
+                Add a comment
+            </legend>
+            {% comment %} ADD NEW COMMENT {% endcomment %}
+            <div class="col s10">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+            </div>
+            <div class="col s2">
+                <br><br>
+                <input type="submit" value="Add" class="btn green darken-2">
+            </div>
+        </fieldset>
+    </form>
+    {% comment %} ALL COMMENTS VIEW {% endcomment %}
+    <div class="row">
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th class="center">COMMENTS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in vista.comment_set.all %}
+                <tr class="row">
+                    <td class="col s8 flow-text">{{comment.comment}}</td>
+                    <td class="col s4 flow-text">{{comment.date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% comment %} JAVASCRIPT TO EDIT FORM CLASSES {% endcomment %}
+<script>
+    let commentEl = document.getElementById("id_comment")
+    commentEl.classList.add("white-text")
+    commentEl.classList.add("input-field")
+
+    {% comment %} let imgEl = document.getElementById("img_view")
+    let enlarged = false;
+    function enlarge(){
+        imgEl.style.transform = "scale(1.5)";
+        imgEl.style.transition = "transform 0.3s ease";
+        enlarged = true;
+    }
+    function resetImg(){
+        imgEl.style.transform = "scale(1)";
+        imgEl.style.transition = "transform 0.3s ease";
+        enlarged = false;
+    } {% endcomment %}
+</script>
 {% endblock content %}

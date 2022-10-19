@@ -1,3 +1,5 @@
 from django.contrib import admin
+from vistas_collector.models import Vista, Comment
 
-# Register your models here.
+admin.site.register(Vista)
+admin.site.register(Comment)

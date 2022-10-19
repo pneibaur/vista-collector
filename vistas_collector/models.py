@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Vista(models.Model):
@@ -13,3 +14,18 @@ class Vista(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("vista_detail", kwargs={"vista_id": self.id})
+    
+
+class Comment(models.Model):
+    comment = models.TextField(max_length=250)
+    date = models.DateField(auto_now_add=True)
+    vista = models.ForeignKey(Vista, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.comment
+    
+    class Meta:
+        ordering = ["-date"]

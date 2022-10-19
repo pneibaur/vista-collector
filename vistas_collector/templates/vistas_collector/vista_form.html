@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="{{ "background-color: rgba(0,0,0,.5); border-radius: 50px;" }}">
+    <div class="card-content">
+        <div class="row center">
+            {% if object %}
+            <h1 class="white-text">Edit <span class="yellow-text text-darken-2">{{object.name}}</span></h1>
+            {% else %}
+            <h1 class="white-text">Add a new <span class="yellow-text text-darken-2">vista</span></h1>
+            {% endif %}
+        </div>
+        <div class="row">
+            <form class="col s12" action="" method="post">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                </table>
+                <div class="card-action row">
+                    <br>
+                    <input type="submit" value="Submit" class="btn yellow lighten-2 black-text z-depth-2 right">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("id_name").classList.add("white-text")
+    document.getElementById("id_description").classList.add("white-text")
+    document.getElementById("id_season").classList.add("white-text")
+    document.getElementById("id_year").classList.add("white-text")
+    document.getElementById("id_location").classList.add("white-text")
+    document.getElementById("id_state_province").classList.add("white-text")
+    document.getElementById("id_country").classList.add("white-text")
+</script>
+
+{% endblock content %}

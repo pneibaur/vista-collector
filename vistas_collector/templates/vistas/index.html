@@ -9,10 +9,12 @@
                 <div class="card-image">
                     <img src="{{vista.img}}" alt="{{vista.name}}">
                 </div>
-                <span class="card-title right">{{vista.name}}</span>
-                <p>{{vista.description}} </p>
+                <div class="black-text">
+                    <span class="card-title right">{{vista.name}}</span>
+                    <p>{{vista.description}} </p>
+                </div>
                 <div class="card-action">
-                    <a href="#">SEE DETAILS</a>
+                    <a class="btn green darken-4" href="{% url 'vista_detail' vista.id %}">DETAILS</a>
                 </div>
             </div>
         </div>

@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    background-color: black;
+    background: linear-gradient(rgba(255,255,255,0), rgba(0,0,0,1)), url("../images/background.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.card-image {
+    max-width: 50em;
+    height: auto;
+}
+
+.about,
+.home {
+    text-shadow: 1px 5px 15px black;
+}
+
+#id_comment {
+    border: none;
+    background-color: rgba(106, 106, 106, 0.3);
+}
+
+footer {
+    display: flex;
+}
+
+#img_view {
+    transition-duration: .3s;
+}
+#img_view:hover {
+    transform: scale(1.5);
+}

@@ -6,34 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'vistas_collector/css/style.css' %}">
     <title>Vistas Collector</title>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <nav>
-                <div class="nav-wrapper">
-                    <ul>
-                        <li><a href="/" class="left brand-logo">Vista Collector</a></li>
-                    </ul>
+    <header>
+        <nav>
+            <div class="nav-wrapper green darken-4">
+                <div class="container">
+                    <a href="/" class="left brand-logo"><i class="large material-icons left">panorama</i>Vista Collector</a>
                     <ul class="right">
                         <li><a href="/about">ABOUT</a></li>
+                        <li><a href="{% url 'vista_create' %}">ADD NEW</a></li>
                         <li><a href="/vistas">SEE VISTAS</a></li>
                     </ul>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+    </header>
+    <div class="container white-text">
         <main>
             {% block content %}
             {% endblock content %}
         </main>
-        <footer>
-            <hr>
-            <div>
-                &copy; 2022 Vista Collector
-            </div>
-        </footer>
     </div>
+    <footer class="green darken-4">    
+        <div class="container">
+            <div class="row white-text right">
+                <h5>&copy; 2022 Vista Collector</h5>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
