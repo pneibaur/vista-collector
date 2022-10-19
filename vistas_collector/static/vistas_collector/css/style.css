@@ -5,16 +5,20 @@
 
 body {
     background-color: black;
-    background: linear-gradient(rgba(255,255,255,0), rgba(0,0,0,1)), url("../images/background.jpeg");
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 1)), url("../images/background.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
-    min-height: 100vh;
     display: flex;
+    min-height: 100vh;
     flex-direction: column;
 }
 
 main {
-    flex: 1 0 auto;
+    flex-grow: 1;
+}
+
+footer {
+    padding-top: 0;
 }
 
 .card-image {
@@ -32,13 +36,11 @@ main {
     background-color: rgba(106, 106, 106, 0.3);
 }
 
-footer {
-    display: flex;
-}
 
 #img_view {
     transition-duration: .3s;
 }
-#img_view:hover {
+
+#img_view:active {
     transform: scale(1.5);
 }

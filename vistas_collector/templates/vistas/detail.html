@@ -1,9 +1,6 @@
 
 {% extends 'base.html' %}
 {% block content %}
-{% comment %} {% if enlarged %}
-<a onclick="resetImg()" href="#" class="btn-floating green darken-2"><i class="small material-icons">clear</i> </a>
-{% endif %} {% endcomment %}
 <div class="row">
     <div class="card" style="{{ "background-color: rgba(0,0,0,.5);" }}">
         <div class="card-content">
@@ -69,18 +66,5 @@
     let commentEl = document.getElementById("id_comment")
     commentEl.classList.add("white-text")
     commentEl.classList.add("input-field")
-
-    {% comment %} let imgEl = document.getElementById("img_view")
-    let enlarged = false;
-    function enlarge(){
-        imgEl.style.transform = "scale(1.5)";
-        imgEl.style.transition = "transform 0.3s ease";
-        enlarged = true;
-    }
-    function resetImg(){
-        imgEl.style.transform = "scale(1)";
-        imgEl.style.transition = "transform 0.3s ease";
-        enlarged = false;
-    } {% endcomment %}
 </script>
 {% endblock content %}

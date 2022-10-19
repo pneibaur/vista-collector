@@ -1,5 +1,21 @@
+from email.policy import default
+from random import choices
 from django.db import models
 from django.urls import reverse
+
+# UPCOMING CATEGORY FEATURE
+# TYPES = ('Beach', 'Mountain', 'Land', 'Sky', 'Star', 'City', 'Rural', 'Desert', 'Lake', 'Ocean', 'Frozen',)
+# type = models.CharField(max_length=16, choices=TYPES, default=TYPES[2])
+
+class Tag(models.Model):
+    tag = models.CharField(max_length=100)
+
+    def get_absolute_url(self):
+        return reverse("tags_detail", kwargs={"pk": self.id})
+
+    def __str__(self) -> str:
+        return self.tag
+    
 
 # Create your models here.
 class Vista(models.Model):
@@ -11,6 +27,7 @@ class Vista(models.Model):
     location = models.CharField(max_length=100)
     state_province = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.name
