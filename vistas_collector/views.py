@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 # from django.http import HttpResponse
-from vistas_collector.models import Vista
+from vistas_collector.models import Flair, Vista
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CommentForm
 
@@ -46,3 +47,23 @@ class VistaUpdate(UpdateView):
 class VistaDelete(DeleteView):
     model = Vista
     success_url = "/vistas/"
+
+class FlairList(ListView):
+    model = Flair
+    template_name = 'flairs/index.html'
+
+class FlairDetail(DetailView):
+    model = Flair
+    template_name = 'flairs/detail.html'
+
+class FlairCreate(CreateView):
+    model = Flair
+    fields = ['tag',]
+
+class FlairUpdate(UpdateView):
+    model = Flair
+    fields = ['tag',]
+
+class FlairDelete(DeleteView):
+    model = Flair
+    success_url = '/flairs/'
