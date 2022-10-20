@@ -18,10 +18,16 @@
                 <div class="container">
                     <a href="/" class="left brand-logo"><i class="large material-icons left">panorama</i>Vista Collector</a>
                     <ul class="right">
-                        <li><a href="/about">ABOUT</a></li>
-                        <li><a href="{% url 'vista_create' %}">ADD NEW</a></li>
-                        <li><a href="/vistas">SEE VISTAS</a></li>
+                        {% if user.is_authenticated %}
+                        <li>{{user}}</li>
+                        <li><a href="/vistas">ALL VISTAS</a></li>
+                        <li><a href="{% url 'user_index' %}">MY VISTAS</a></li>
                         <li><a href="/flairs">EXPLORE TAGS</a></li>
+                        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                        {% else %}
+                        <li><a href="{% url 'login' %}">LOGIN</a></li>
+                        <li><a href="{% url 'signup' %}">SIGN UP!</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -35,8 +41,9 @@
     </div>
     <footer class="green darken-4">    
         <div class="container">
-            <div class="row white-text right">
-                <h5>&copy; 2022 Vista Collector</h5>
+            <div class="row white-text">
+                <a class="left white-text" href="/about"><span> ABOUT </span></a>
+                <span class="right">&copy; 2022 Vista Collector</span>
             </div>
         </div>
     </footer>

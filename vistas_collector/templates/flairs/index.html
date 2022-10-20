@@ -7,13 +7,22 @@
     <div class="row">
         {% for flair in object_list %}
         <div class="col">
+            {% if flair.user.id == user.id %}
             <div class="chip yellow lighten-2">
+            {% else %}
+            <div class="chip yellow lighten-4">
+            {% endif %}
                 <a href="{% url 'flair_detail' flair.id %}" style="color: inherit;">
                     <p class="card-title">{{flair.tag}}</p>
                 </a>
             </div>
         </div>
         {% endfor %}
+    </div>
+</div>
+<div class="section">
+    <div class="row">
+        <h3>Explore more vistas to add new tags! </h3>
     </div>
 </div>
 

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>VISTAS COLLECTION</h1>
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large green darken-2" href="{% url 'vista_create' %}"><i class="add material-icons">add</i></a>
+</div>
 <div class="section row">
     {% for vista in vistas %}
     <div class="col s6 m3 center-align">

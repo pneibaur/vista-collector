@@ -15,7 +15,11 @@
                 {% for tag in vista.tags.all %}
                 <div class="col">
                     <a href="{% url 'unassign_flair' vista.id tag.id %}">
+                        {% if user.id == tag.user.id %}
                         <div class="chip yellow lighten-2">
+                        {% else %}
+                        <div class="chip yellow lighten-4">
+                        {% endif %}
                             {{tag}}
                             <i class="close material-icons">close</i> 
                         </div>
@@ -49,7 +53,11 @@
                 {% for tag in unassociated_tags.all %}
                 <div class="col">
                     <a href="{% url 'assign_flair' vista.id tag.id %}">
+                        {% if user.id == tag.user.id %}
                         <div class="chip yellow lighten-2">
+                        {% else %}
+                        <div class="chip yellow lighten-4">
+                        {% endif %}
                             {{tag.tag}}
                             <i class="close material-icons">add</i>
                         </div>
@@ -63,7 +71,7 @@
         </div>
         {% comment %} CREATE NEW TAG {% endcomment %}
         <div class="card-action">
-            <form class="row" action="{% url 'add_flair' vista.id %}" method="post">
+            <form class="row" action="{% url 'add_flair' vista.id user.id %}" method="post">
                 <div class="col s6">
                     <h5> Add a new tag to {{vista.name}}? </h5>
                 </div>
@@ -80,7 +88,7 @@
 </div>
 {% comment %} COMMENTS SECTION {% endcomment %}
 <div class="section container">
-    <form action="{% url 'add_comment' vista.id %}" method="post" class="row">
+    <form action="{% url 'add_comment' vista.id user.id %}" method="post" class="row">
         <fieldset style="{{ "border-radius: 1em; border: 1px solid grey; padding-bottom: 2em;" }}">
             <legend style="{{ "margin: 0 1em; padding: 0 1em; font-size: 2em;" }}">
                 Add a comment
@@ -107,14 +115,17 @@
             <tbody>
                 {% for comment in vista.comment_set.all %}
                 <tr class="row">
-                    <td class="col s8 flow-text">{{comment.comment}}</td>
-                    <td class="col s4 flow-text">
+                    <td class="col s2">{{comment.user}}:</td>
+                    <td class="col s6">{{comment.comment}}</td>
+                    <td class="col s4">
                         {{comment.date}}
                     </td>
                     <td>
+                        {% if user.id == comment.user.id %}
                         <a class="white-text" href="{% url 'remove_comment' vista.id comment.id %}">
                             <i class="material-icons">close</i>
                         </a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
