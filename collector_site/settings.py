@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
-from decouple import config
+from dotenv import load_dotenv
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -146,6 +149,17 @@ pip freeze > requirements.txt
 to put them in a requirements.txt file (> requirements.txt). this file is like the 
 package.json file in Node...
 run this command again if you have to install any additional packages to your project.
+
+we then git add and commit. then run:
+git push heroku main. 
+to send it up.  
+
+heroku will auto create a postgresql db if it detects it. you can run this to check:
+heroku pg
+then you can run
+heroku run python manage.py showmigrations 
+to check status of migrations. then run:
+heroku run python manage.py migrate
 """
 
 import django_heroku
