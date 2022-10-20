@@ -15,6 +15,8 @@ urlpatterns = [
     path("flairs/<int:pk>", views.FlairDetail.as_view(), name="flair_detail"),
     path("flairs/<int:pk>/update", views.FlairUpdate.as_view(), name="flair_update"),
     path("flairs/<int:pk>/delete", views.FlairDelete.as_view(), name="flair_delete"),
-    path("flairs/create", views.FlairCreate.as_view(), name="flair_create"),
-    # path("tags/", views.TagList.as_view(), name="tag_index"), ---- associated tags
+    path("vistas/<int:vista_id>/add_flair/", views.add_flair, name="add_flair"),
+    path("vistas/<int:vista_id>/assign_flair/<int:flair_id>", views.assign_flair, name='assign_flair'),
+    path("vistas/<int:vista_id>/usassign_flair/<int:flair_id>", views.unassign_flair, name='unassign_flair'),
+    path("vistas/<int:vista_id>/remove_comment/<int:comment_id>", views.remove_comment, name='remove_comment')
 ]

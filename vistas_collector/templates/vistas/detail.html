@@ -2,25 +2,79 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row">
-    <div class="card" style="{{ "background-color: rgba(0,0,0,.5);" }}">
+    <div class="card" style="{{ "background-color: rgba(0,0,0,.5); border-radius: 20px;" }}">
         <div class="card-content">
             {% comment %} TITLE AND IMAGE {% endcomment %}
             <h1 class="green-text center">{{vista.name}} </h1>
             <div class="row center">
                 <img onclick="enlarge()" id="img_view" src="{{vista.img}}" alt="{{vista.name}}" class="card-image">
             </div>
+            {% comment %} DISPLAY TAGS {% endcomment %}
+            <div class="row">
+                <div class="col offset-s1 chip green darken-2 white-text">TAGS: </div>
+                {% for tag in vista.tags.all %}
+                <div class="col">
+                    <a href="{% url 'unassign_flair' vista.id tag.id %}">
+                        <div class="chip yellow lighten-2">
+                            {{tag}}
+                            <i class="close material-icons">close</i> 
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% comment %} DISPLAY DETAILS {% endcomment %}
             <div class="row white-text">
                 <div class="col s11 offset-s1">
-                    {% comment %} DETAILS {% endcomment %}
-                    <h3>{{vista.season}} of {{vista.year}}: {{vista.description}}</h3>
-                    <h3>{{vista.location}}, {{vista.state_province}}, {{vista.country}}</h3>
+                    <h3>{{vista.description}}</h3>
+                    <h5><strong> When: </strong> {{vista.season_display}} of {{vista.year}}</h5>
+                    <h5><strong> Location: </strong>{{vista.location}}, {{vista.state_province}}, {{vista.country}}</h5>
                 </div>
             </div>
             {% comment %} UPDATE/REMOVE BUTTONS {% endcomment %}
             <div class="card-action">
-                <a href="{% url 'vista_update' vista.id %}" class="btn green darken-2">UPDATE INFO</a>
-                <a href="{% url 'vista_delete' vista.id %}" class="btn orange darken-4">REMOVE</a>
+                <a href="{% url 'vista_update' vista.id %}" class=" btn green darken-2">UPDATE</a>
+                <a href="{% url 'vista_delete' vista.id %}" class=" btn orange darken-4">REMOVE</a>
+            </div> 
+        </div>
+    </div>
+</div>
+{% comment %} LISTS UNASSIGNED TAGS {% endcomment %}
+<div class="row">
+    <div class="card" style="{{ "background-color: rgba(0,0,0,.5); border-radius: 20px;" }}">
+        <div class="card-content">
+            <h4>Available Tags:</h4>
+            <div class="row">
+                {% if unassociated_tags.count %}
+                {% for tag in unassociated_tags.all %}
+                <div class="col">
+                    <a href="{% url 'assign_flair' vista.id tag.id %}">
+                        <div class="chip yellow lighten-2">
+                            {{tag.tag}}
+                            <i class="close material-icons">add</i>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <h4>No additional tags...</h4>
+                {% endif %}
             </div>
+        </div>
+        {% comment %} CREATE NEW TAG {% endcomment %}
+        <div class="card-action">
+            <form class="row" action="{% url 'add_flair' vista.id %}" method="post">
+                <div class="col s6">
+                    <h5> Add a new tag to {{vista.name}}? </h5>
+                </div>
+                <div class="col s4">
+                    {% csrf_token %} {{ flair_form.as_p }}
+                </div>
+                <div class="col s2">
+                    <br>
+                    <input class="btn green darken-2" type="submit" value="Add Tag">
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -54,7 +108,14 @@
                 {% for comment in vista.comment_set.all %}
                 <tr class="row">
                     <td class="col s8 flow-text">{{comment.comment}}</td>
-                    <td class="col s4 flow-text">{{comment.date}}</td>
+                    <td class="col s4 flow-text">
+                        {{comment.date}}
+                    </td>
+                    <td>
+                        <a class="white-text" href="{% url 'remove_comment' vista.id comment.id %}">
+                            <i class="material-icons">close</i>
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -66,5 +127,6 @@
     let commentEl = document.getElementById("id_comment")
     commentEl.classList.add("white-text")
     commentEl.classList.add("input-field")
+    document.getElementById("id_tag").classList.add("white-text")
 </script>
 {% endblock content %}

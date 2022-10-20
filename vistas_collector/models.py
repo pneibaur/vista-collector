@@ -1,3 +1,5 @@
+from email.policy import default
+from random import choices
 from django.db import models
 from django.urls import reverse
 
@@ -5,11 +7,18 @@ from django.urls import reverse
 # TYPES = ('Beach', 'Mountain', 'Land', 'Sky', 'Star', 'City', 'Rural', 'Desert', 'Lake', 'Ocean', 'Frozen',)
 # type = models.CharField(max_length=16, choices=TYPES, default=TYPES[2])
 
+SEASONS = (
+    ('WI','Winter',),
+    ('SP', 'Spring',),
+    ('SU', 'Summer',),
+    ('FA', 'Fall',),
+    )
+
 class Flair(models.Model):
     tag = models.CharField(max_length=100)
 
     def get_absolute_url(self):
-        return reverse("tag_detail", kwargs={"pk": self.id})
+        return reverse("flair_detail", kwargs={"pk": self.id})
 
     def __str__(self) -> str:
         return self.tag
@@ -20,7 +29,7 @@ class Vista(models.Model):
     name = models.CharField(max_length=100)
     img = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
-    season = models.CharField(max_length=100)
+    season = models.CharField(max_length=2, choices=SEASONS, default=SEASONS[1][0])
     year = models.IntegerField()
     location = models.CharField(max_length=100)
     state_province = models.CharField(max_length=100)
@@ -32,6 +41,9 @@ class Vista(models.Model):
 
     def get_absolute_url(self):
         return reverse("vista_detail", kwargs={"vista_id": self.id})
+
+    def season_display(self):
+        return f"{self.get_season_display()}"
     
 
 class Comment(models.Model):

@@ -5,6 +5,6 @@
 <form action="" method="post">
     {% csrf_token %}
     <input type="submit" value="Yes Delete" class="btn yellow darken-2">
-    <a href="{% url 'tag_detail' tag.id%}" class="btn green darken-2">Cancel</a>
+    <a href="{% url 'flair_detail' flair.id%}" class="btn green darken-2">Cancel</a>
 </form>
 {% endblock content %}

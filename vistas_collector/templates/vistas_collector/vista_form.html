@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card" style="{{ "background-color: rgba(0,0,0,.5); border-radius: 50px;" }}">
+<div class="card" style="{{ "background-color: rgba(255,255,255,.3); border-radius: 50px;" }}">
     <div class="card-content">
         <div class="row center">
             {% if object %}
@@ -12,7 +12,7 @@
         <div class="row">
             <form class="col s12" action="" method="post">
                 {% csrf_token %}
-                <table>
+                <table class="add_edit">
                     {{ form.as_table }}
                 </table>
                 <div class="card-action row">
@@ -24,13 +24,17 @@
     </div>
 </div>
 <script>
-    document.getElementById("id_name").classList.add("white-text")
+    {% comment %} document.getElementById("id_name").classList.add("white-text")
+    document.getElementById("id_img").classList.add("white-text")
     document.getElementById("id_description").classList.add("white-text")
     document.getElementById("id_season").classList.add("white-text")
     document.getElementById("id_year").classList.add("white-text")
     document.getElementById("id_location").classList.add("white-text")
     document.getElementById("id_state_province").classList.add("white-text")
-    document.getElementById("id_country").classList.add("white-text")
+    document.getElementById("id_country").classList.add("white-text") {% endcomment %}
+
+    let selectEl = document.getElementById('id_season')
+    M.FormSelect.init(selectEl)
 </script>
 
 {% endblock content %}

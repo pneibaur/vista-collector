@@ -2,15 +2,19 @@
 {% block content %}
 
 <h1>All Tags</h1>
-
-{% for flair in object_list %}
-<div class="card">
-    <a href="{% url 'flair_detail' flair.id %}">
-        <div class="card-content">
-            <span class="card-title">{{flair.tag}}</span>
+<hr>
+<div class="section">
+    <div class="row">
+        {% for flair in object_list %}
+        <div class="col">
+            <div class="chip yellow lighten-2">
+                <a href="{% url 'flair_detail' flair.id %}" style="color: inherit;">
+                    <p class="card-title">{{flair.tag}}</p>
+                </a>
+            </div>
         </div>
-    </a>
+        {% endfor %}
+    </div>
 </div>
-{% endfor %}
 
 {% endblock content %}

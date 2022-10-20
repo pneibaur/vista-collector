@@ -3,12 +3,12 @@
 
 <h1>{{ flair.tag}}</h1>
 
-<div class="card">
+<div class="card yellow lighten-4">
     <div class="card-content">
         <span class="card-title black-text">{{ flair.tag }}</span>
         <div class="card-action">
-            <a href="{% url 'flair_update' flair.id %}">Edit</a>
-            <a href="{% url 'flair_delete' flair.id %}">Delete</a>
+            <a class="green btn darken-2" href="{% url 'flair_update' flair.id %}">Edit</a>
+            <a class="orange btn darken-2" href="{% url 'flair_delete' flair.id %}">Delete</a>
         </div>
     </div>
 </div>
