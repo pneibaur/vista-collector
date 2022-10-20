@@ -123,3 +123,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+"""
+to deploy to heroku, we created a heroku project using the CLI (after logging in): 
+heroku create collector-site-1311
+we then used the OG terminal to navigate to the django environment, activate pipenv shell,
+and run: 
+pipenv install django-heroku
+for some, this just doesn't work, unfortunately. 
+We then add the lines at the very bottom of settings.py (see below). 
+since the built-in dev server with 'python manage.py runserver' doesn't work for 
+deployment, we need to install 'green unicorn' or 'gunicorn':
+pipenv install gunicorn
+we then made a 'procedure file' or 'procfile'. 
+
+echo 'web: gunicorn collector_site.wsgi' > Procfile
+
+the wsgi file is like the entry point for your site to interact with clients (browsers). 
+we then ran:
+pip freeze > requirements.txt
+..freeze takes a snapshot of all the dependencies and then we are telling the cli
+to put them in a requirements.txt file (> requirements.txt). this file is like the 
+package.json file in Node...
+run this command again if you have to install any additional packages to your project.
+"""
+
+import django_heroku
+django_heroku.settings(locals())
