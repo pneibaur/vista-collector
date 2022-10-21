@@ -17,13 +17,14 @@
             <div class="nav-wrapper green darken-4">
                 <div class="container">
                     <a href="/" class="left brand-logo"><i class="large material-icons left">panorama</i>Vista Collector</a>
-                    <ul class="right">
+                    <a href="#!" data-target="nav_links" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
                         {% if user.is_authenticated %}
-                        <li>{{user}}</li>
                         <li><a href="/vistas">ALL VISTAS</a></li>
                         <li><a href="{% url 'user_index' %}">MY VISTAS</a></li>
                         <li><a href="/flairs">EXPLORE TAGS</a></li>
                         <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                        <li>{{user}}</li>
                         {% else %}
                         <li><a href="{% url 'login' %}">LOGIN</a></li>
                         <li><a href="{% url 'signup' %}">SIGN UP!</a></li>
@@ -32,6 +33,18 @@
                 </div>
             </div>
         </nav>
+        <ul class="sidenav" id="nav_links">
+            {% if user.is_authenticated %}
+            <li><a href="/vistas">ALL VISTAS</a></li>
+            <li><a href="{% url 'user_index' %}">MY VISTAS</a></li>
+            <li><a href="/flairs">EXPLORE TAGS</a></li>
+            <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+            <li>{{user}}</li>
+            {% else %}
+            <li><a href="{% url 'login' %}">LOGIN</a></li>
+            <li><a href="{% url 'signup' %}">SIGN UP!</a></li>
+            {% endif %}
+        </ul>
     </header>
     <div class="container white-text">
         <main>
@@ -48,4 +61,10 @@
         </div>
     </footer>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        let elems = document.querySelectorAll('.sidenav');
+        let instances = M.Sidenav.init(elems, options);
+    });
+</script>
 </html>

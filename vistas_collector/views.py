@@ -1,7 +1,7 @@
 from multiprocessing import context
 from django.shortcuts import render, redirect
 # from django.http import HttpResponse
-from vistas_collector.models import Flair, Vista, Comment, User
+from vistas_collector.models import Flair, Vista, Comment, User, Photo
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CommentForm, FlairForm
@@ -9,6 +9,11 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+import uuid
+import boto3
+
+S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com'
+BUCKET = "catcollector-phil-11"
 
 
 def home(request):
@@ -115,6 +120,23 @@ class FlairDelete(LoginRequiredMixin, DeleteView):
     model = Flair
     success_url = '/flairs/'
 
+
+def add_photo(request, vista_id):
+    photo_file = request.FILES.get("photo-file", None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        # need a unique 'key' for s3. needs an image file extension too.
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            # this assembles the url string together. 
+            url = f"{S3_BASE_URL}/{BUCKET}/{key}"
+            # here it's assigned to the vista_id. but you can also assign to the cat object too. 
+            photo = Photo(url=url, vista_id=vista_id)
+            photo.save()
+        except:
+            print("An error occurred uploading this file to s3...")
+    return redirect('vista_detail', vista_id=vista_id)
 
 def signup(request):
     error_message = ''

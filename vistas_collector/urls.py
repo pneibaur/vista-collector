@@ -20,5 +20,6 @@ urlpatterns = [
     path("vistas/<int:vista_id>/assign_flair/<int:flair_id>", views.assign_flair, name='assign_flair'),
     path("vistas/<int:vista_id>/usassign_flair/<int:flair_id>", views.unassign_flair, name='unassign_flair'),
     path("vistas/<int:vista_id>/remove_comment/<int:comment_id>", views.remove_comment, name='remove_comment'),
+    path("vistas/<int:vista_id>/add_photo/", views.add_photo, name="add_photo"),
     path("accounts/signup/", views.signup, name='signup' ),
 ]

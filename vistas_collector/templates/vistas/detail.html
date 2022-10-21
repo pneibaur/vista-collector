@@ -7,7 +7,7 @@
             {% comment %} TITLE AND IMAGE {% endcomment %}
             <h1 class="green-text center">{{vista.name}} </h1>
             <div class="row center">
-                <img onclick="enlarge()" id="img_view" src="{{vista.img}}" alt="{{vista.name}}" class="card-image">
+                <img onclick="enlarge()" id="img_view" src="{{vista.img}}" alt="{{vista.name}}" class="card-image responsive-img">
             </div>
             {% comment %} DISPLAY TAGS {% endcomment %}
             <div class="row">
@@ -37,8 +37,10 @@
             </div>
             {% comment %} UPDATE/REMOVE BUTTONS {% endcomment %}
             <div class="card-action">
+                {% if user.id == vista.user.id %}
                 <a href="{% url 'vista_update' vista.id %}" class=" btn green darken-2">UPDATE</a>
                 <a href="{% url 'vista_delete' vista.id %}" class=" btn orange darken-4">REMOVE</a>
+                {% endif %}
             </div> 
         </div>
     </div>
@@ -72,13 +74,13 @@
         {% comment %} CREATE NEW TAG {% endcomment %}
         <div class="card-action">
             <form class="row" action="{% url 'add_flair' vista.id user.id %}" method="post">
-                <div class="col s6">
-                    <h5> Add a new tag to {{vista.name}}? </h5>
+                <div class="col s12 m6">
+                    <h5> Make a new tag! </h5>
                 </div>
-                <div class="col s4">
+                <div class="col s12 m4">
                     {% csrf_token %} {{ flair_form.as_p }}
                 </div>
-                <div class="col s2">
+                <div class="col s12 m2">
                     <br>
                     <input class="btn green darken-2" type="submit" value="Add Tag">
                 </div>
@@ -86,19 +88,46 @@
         </div>
     </div>
 </div>
+{% comment %} ADDITIONAL IMAGES {% endcomment %}
+<div class="section">
+    <div class="row">
+        <h4 class="center">Other Images</h4>
+        {% for photo in vista.photo_set.all %}
+        <div class="col">
+            <img src="{{photo.url}}" alt="{{vista.name}}" class="responsive-img">
+        </div>
+        {%empty%}
+        <div class="col">No extra photos to display...</div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="card" style="{{ "background-color: rgba(0,0,0,.5); border-radius: 20px;" }}">
+            <div class="card-content">
+                {% comment %} make sure to add the enctype within the form tag. {% endcomment %}
+                <form 
+                action="{% url 'add_photo' vista.id %}" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <input type="file" name="photo-file" id="photo_upload">
+                <br><br>
+                <input type="submit" value="Upload Photo" class="btn green darken-2">
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
 {% comment %} COMMENTS SECTION {% endcomment %}
 <div class="section container">
     <form action="{% url 'add_comment' vista.id user.id %}" method="post" class="row">
         <fieldset style="{{ "border-radius: 1em; border: 1px solid grey; padding-bottom: 2em;" }}">
             <legend style="{{ "margin: 0 1em; padding: 0 1em; font-size: 2em;" }}">
-                Add a comment
+                Add comment
             </legend>
             {% comment %} ADD NEW COMMENT {% endcomment %}
-            <div class="col s10">
+            <div class="col s12 m10">
                 {% csrf_token %}
                 {{ comment_form.as_p }}
             </div>
-            <div class="col s2">
+            <div class="col s12 m2">
                 <br><br>
                 <input type="submit" value="Add" class="btn green darken-2">
             </div>
@@ -115,18 +144,18 @@
             <tbody>
                 {% for comment in vista.comment_set.all %}
                 <tr class="row">
-                    <td class="col s2">{{comment.user}}:</td>
-                    <td class="col s6">{{comment.comment}}</td>
-                    <td class="col s4">
-                        {{comment.date}}
-                    </td>
                     <td>
                         {% if user.id == comment.user.id %}
-                        <a class="white-text" href="{% url 'remove_comment' vista.id comment.id %}">
-                            <i class="material-icons">close</i>
+                        <a class="white-text col s1" href="{% url 'remove_comment' vista.id comment.id %}">
+                            <i class="small material-icons">close</i>
                         </a>
                         {% endif %}
                     </td>
+                    <td class="col s4 m2">{{comment.user}}:</td>
+                    <td class="col s7 m4">
+                        {{comment.date}}
+                    </td>
+                    <td class="col s12 m12">{{comment.comment}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
